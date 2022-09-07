@@ -1,14 +1,21 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using Org.BouncyCastle.Crypto.Macs;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
         Console.WriteLine("Hello, World!");
-        var result = Encrypt("", false);
-        //foreach (var item in result) { Console.Write("{0:X} ", Convert.ToUInt32(item)); }
-        Console.WriteLine(result);
+        //var result = Encrypt("", false);
+        ////foreach (var item in result) { Console.Write("{0:X} ", Convert.ToUInt32(item)); }
+        //Console.WriteLine(result);
+        var mac = GetMac();
+    }
+
+    public static string GetMac()
+    {
+        return "";
     }
 
     public static string Encrypt(string toEncrypt, bool useHashing)
