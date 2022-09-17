@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace TriplesDesTest.Cryptography
 {
-    class RetailMac
+    public class RetailMac
     {
         public string getMac(byte[] data, byte[] keyBytes)
         {
