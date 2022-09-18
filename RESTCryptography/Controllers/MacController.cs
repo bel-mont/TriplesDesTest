@@ -32,25 +32,40 @@ namespace RESTCryptography.Controllers
 
         // POST api/<MacController>
         [HttpPost]
-        public MacCheckDto Post([FromBody] MacCheckDto value)
+        public string Post([FromBody] MacCheckDto value)
         {
+            // eifd base 64 = k3dFwgiDobrR4EGTcioVkjePgajx3FiRV66w91RPobqAAAAAAAAAAA==
+            // kmac base 64 = ZSK04XEZW7IYIjqXbAQBEQ==
+            // 
             var retailMac = new RetailMac();
-            var eifd = new byte[] { 0x93, 0x77, 0x45, 0xC2, 0x08, 0x83, 0xA1, 0xBA, 0xD1, 0xE0, 0x41, 0x93, 0x72, 0x2A, 0x15, 0x92, 0x37, 0x8F, 0x81, 0xA8, 0xF1, 0xDC, 0x58, 0x91, 0x57, 0xAE, 0xB0, 0xF7, 0x54, 0x4F, 0xA1, 0xBA, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-            var mac = retailMac.getMac(eifd, kmac);
-            var eicc = new byte[] { 0x58, 0x60, 0x77, 0x5B, 0x4D, 0x03, 0x2C, 0xC5, 0x64, 0xBA, 0x20, 0x4B, 0x8E, 0xA8, 0x68, 0xF6, 0x94, 0xA7, 0x4E, 0x74, 0x75, 0xA8, 0xFE, 0xF2, 0x40, 0x58, 0x8B, 0xDA, 0x1A, 0xF4, 0x96, 0xCE, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-            var mac2 = retailMac.getMac(eicc, kmac);
+            //var eifd = new byte[] { 0x93, 0x77, 0x45, 0xC2, 0x08, 0x83, 0xA1, 0xBA, 0xD1, 0xE0, 0x41, 0x93, 0x72, 0x2A, 0x15, 0x92, 0x37, 0x8F, 0x81, 0xA8, 0xF1, 0xDC, 0x58, 0x91, 0x57, 0xAE, 0xB0, 0xF7, 0x54, 0x4F, 0xA1, 0xBA, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            //Debug.WriteLine("Base64EIFD");
+            //Debug.WriteLine(Convert.ToBase64String(eifd));
+            //Debug.WriteLine(Convert.ToBase64String(kmac));
+            var byteData = Convert.FromBase64String(value.data);
+            var keyData = Convert.FromBase64String(value.key);
+            var mac = retailMac.getMac(byteData, keyData);
+            //var mac = retailMac.getMac(eifd, kmac);
+            //var eicc = new byte[] { 0x58, 0x60, 0x77, 0x5B, 0x4D, 0x03, 0x2C, 0xC5, 0x64, 0xBA, 0x20, 0x4B, 0x8E, 0xA8, 0x68, 0xF6, 0x94, 0xA7, 0x4E, 0x74, 0x75, 0xA8, 0xFE, 0xF2, 0x40, 0x58, 0x8B, 0xDA, 0x1A, 0xF4, 0x96, 0xCE, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+            //Debug.WriteLine("eicc");
+            //// eicc base64 WGB3W00DLMVkuiBLjqho9pSnTnR1qP7yQFiL2hr0ls6AAAAAAAAAAA==
+            //Debug.WriteLine(Convert.ToBase64String(eicc));
+            //var mac2 = retailMac.getMac(eicc, kmac); 
 
             //var string1 = string.Join(" ", mac.Select(e => $"0x{e} "));
             //var string2 = string.Join(" ", mac2.Select(e => $"0x{e} "));
-            //Debug.WriteLine(mac);
+            Debug.WriteLine(mac);
             //Debug.WriteLine(mac2);
             //var result = mac + mac2;
             Debug.WriteLine(retailMac.BytesToHex(mac));
-            value.data = Convert.ToBase64String(mac);
-            Debug.WriteLine(value.data);
-            var decoded = Convert.FromBase64String(value.data);
-            Debug.WriteLine(retailMac.BytesToHex(decoded));
-            return value;
+            //value.data = Convert.ToBase64String(mac);
+            //Debug.WriteLine(value.data);
+            //var decoded = Convert.FromBase64String(value.data);
+            //Debug.WriteLine(retailMac.BytesToHex(decoded));
+
+            // 1a d7 fb 6a 33 89 e0 17
+            // 59 38 8f d6 cd 45 24 8b
+            return Convert.ToBase64String(mac);
         }
 
         //// PUT api/<MacController>/5
