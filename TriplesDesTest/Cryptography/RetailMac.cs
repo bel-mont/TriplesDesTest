@@ -11,7 +11,7 @@ namespace TriplesDesTest.Cryptography
 {
     public class RetailMac
     {
-        public string getMac(byte[] data, byte[] keyBytes)
+        public byte[] getMac(byte[] data, byte[] keyBytes)
         {
             // From eifd (our "text") = 93 77 45 C2 08 83 A1 BA D1 E0 41 93 72 2A 15 92 37 8F 81 A8 F1 DC 58 91 57 AE B0 F7 54 4F A1 BA
             // And kmac (the key) = 65 22 B4 E1 71 19 5B B2 18 22 3A 97 6C 04 01 11
@@ -37,7 +37,7 @@ namespace TriplesDesTest.Cryptography
 
             foreach (var item in outPut) { Console.Write("{0:X} ", Convert.ToUInt32(item)); }
 
-            return BytesToHex(outPut);
+            return outPut; // BytesToHex(outPut);
         }
         public byte[] StringToByteArray(string hex)
         {

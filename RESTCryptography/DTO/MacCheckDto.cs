@@ -6,5 +6,7 @@ namespace RESTCryptography.DTO
     {
         [Required]
         public string data { get; set; }
+        [Required]
+        public string key { get; set; }
     }
 }

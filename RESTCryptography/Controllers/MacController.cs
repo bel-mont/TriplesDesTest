@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Crypto.Macs;
 using RESTCryptography.DTO;
 using TriplesDesTest.Cryptography;
@@ -39,12 +40,16 @@ namespace RESTCryptography.Controllers
             var eicc = new byte[] { 0x58, 0x60, 0x77, 0x5B, 0x4D, 0x03, 0x2C, 0xC5, 0x64, 0xBA, 0x20, 0x4B, 0x8E, 0xA8, 0x68, 0xF6, 0x94, 0xA7, 0x4E, 0x74, 0x75, 0xA8, 0xFE, 0xF2, 0x40, 0x58, 0x8B, 0xDA, 0x1A, 0xF4, 0x96, 0xCE, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
             var mac2 = retailMac.getMac(eicc, kmac);
 
-            var string1 = string.Join("", mac.Select(e => $"{Convert.ToUInt32(e):X} "));
-            var string2 = string.Join("", mac2.Select(e => $"{Convert.ToUInt32(e):X} "));
-            Console.WriteLine(string1);
-            Console.WriteLine(string2);
-            var result = string1 + string2;
-            value.data = result;
+            //var string1 = string.Join(" ", mac.Select(e => $"0x{e} "));
+            //var string2 = string.Join(" ", mac2.Select(e => $"0x{e} "));
+            //Debug.WriteLine(mac);
+            //Debug.WriteLine(mac2);
+            //var result = mac + mac2;
+            Debug.WriteLine(retailMac.BytesToHex(mac));
+            value.data = Convert.ToBase64String(mac);
+            Debug.WriteLine(value.data);
+            var decoded = Convert.FromBase64String(value.data);
+            Debug.WriteLine(retailMac.BytesToHex(decoded));
             return value;
         }
 
